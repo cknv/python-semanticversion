@@ -517,6 +517,33 @@ class SpecTestCase(unittest.TestCase):
         self.assertEqual(1,
             len(set([base.Spec('>=0.1.1'), base.Spec('>=0.1.1')])))
 
+class BumpTestCase(unittest.TestCase):
+    def test_major_bump(self):
+        v = base.Version('0.1.0')
+        v.bump_major()
+        self.assertEqual(base.Version('1.0.0'), v)
+
+    def test_minor_bump(self):
+        v = base.Version('1.1.0')
+        v.bump_minor()
+        self.assertEqual(base.Version('1.2.0'), v)
+
+    def test_patch_bump(self):
+        v = base.Version('1.1.0')
+        v.bump_patch()
+        self.assertEqual(base.Version('1.1.1'), v)
+
+    def test_bump_prerelease(self):
+        v = base.Version('1.1.0-rc1')
+        # self.assertEqual(v.prerelease, None)
+        v.bump_patch(prerelease='rc2')
+        self.assertEqual(base.Version('1.1.1-rc2'), v)
+
+    def test_bump_build(self):
+        v = base.Version('1.1.0-rc1')
+        # self.assertEqual(v.build, None)
+        v.bump_patch(build='somesha')
+        self.assertEqual(base.Version('1.1.1+somesha'), v)
 
 if __name__ == '__main__':  # pragma: no cover
     unittest.main()

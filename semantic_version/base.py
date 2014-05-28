@@ -375,6 +375,33 @@ class Version(object):
 
         return self.__cmp__(other) >= 0
 
+    def bump_major(self, prerelease=None, build=None):
+        self.major = self.major + 1
+        self.minor = 0
+        self.patch = 0
+        self.set_prerelease(prerelease)
+        self.set_build(build)
+
+    def bump_minor(self, prerelease=None, build=None):
+        self.minor = self.minor + 1
+        self.patch = 0
+        self.set_prerelease(prerelease)
+        self.set_build(build)
+
+    def bump_patch(self, prerelease=None, build=None):
+        self.patch = self.patch + 1
+        self.set_prerelease(prerelease)
+        self.set_build(build)
+
+    def set_prerelease(self, prerelease):
+        if prerelease is not None:
+            prerelease = tuple(prerelease.split('.'))
+        self.prerelease = prerelease
+
+    def set_build(self, build):
+        if build is not None:
+            build = tuple(build.split('.'))
+        self.build = build
 
 class SpecItem(object):
     """A requirement specification."""
