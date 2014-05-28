@@ -396,11 +396,15 @@ class Version(object):
     def set_prerelease(self, prerelease):
         if prerelease is not None:
             prerelease = tuple(prerelease.split('.'))
+        elif self.partial:
+            prerelease = tuple()
         self.prerelease = prerelease
 
     def set_build(self, build):
         if build is not None:
             build = tuple(build.split('.'))
+        elif self.partial:
+            build = tuple()
         self.build = build
 
 class SpecItem(object):
